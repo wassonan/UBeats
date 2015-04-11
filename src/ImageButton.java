@@ -126,6 +126,7 @@ class ImageButton extends Canvas {
       image = upImage;
     }
     */
+	ScanTest.scan();
     repaint();
     mouseDown = false;
     return true;
