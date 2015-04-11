@@ -1,15 +1,28 @@
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
- 
-import static com.googlecode.javacv.cpp.opencv_core.*;
+
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.highgui.Highgui;
+import org.opencv.imgproc.Imgproc;;
 
 
 public class CVTest {
 
 	public static void main(String[] args) {
-		BufferedImage img1 = null, img2 = null;
+		System.load(System.getProperty("user.dir") + "/libs/libopencv_java2411.dylib");
+		Mat prev_frame = Highgui.imread("images/base.jpg", 0);
+		Mat next_frame = Highgui.imread("images/motion.jpg", 0);
+		Mat d1 = new Mat();
+		Core.subtract(prev_frame, next_frame, d1);
+		Imgproc.threshold(d1, d1, 70, 255, Imgproc.THRESH_BINARY);
+		Highgui.imwrite("images/image.jpg", d1);
+		
+		
+		/*BufferedImage img1 = null, img2 = null;
 		try {
 		    img1 = ImageIO.read(new File("base.jpg"));
 		    img2 = ImageIO.read(new File("motion.jpg"));
@@ -25,7 +38,7 @@ public class CVTest {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 }
