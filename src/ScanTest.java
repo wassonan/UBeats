@@ -47,7 +47,7 @@ public class ScanTest {
 
 		System.out.println(frame.size());
 		frame = frame.submat(165, 665, 200, 850);
-		showResult(frame);
+		//showResult(frame);
 		
 		Imgproc.threshold(frame, frame, 100, 255, Imgproc.THRESH_BINARY);
 
@@ -130,7 +130,7 @@ public class ScanTest {
 								}
 							}
 						}
-						if(e.size()>5000){
+						if(e.size()>1000){
 							TestShapes.shapes.add(e);
 						}
 					}
