@@ -31,7 +31,7 @@ public class Webcam {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		camera.open(0); 
+		camera.open(1); 
 		if(!camera.isOpened()){
 			System.out.println("Camera Error");
 		}
@@ -50,6 +50,9 @@ public class Webcam {
 		//camera.retrieve(frame);
 		//System.out.println("Frame Decoded");
 		camera.read(frame);
+		
+
+		//System.out.println(frame.channels());
 		//prev_frame = Highgui.imread("images/base.jpg", 0);
 		camera.read(prev_frame);
 		showResult(prev_frame);
@@ -76,6 +79,7 @@ public class Webcam {
 			Imgproc.threshold(d1, d1, 70, 255, Imgproc.THRESH_BINARY);
 			//Core.subtract(curr_frame, next_frame, d2);
 			//Core.bitwise_and(d1, d2, frame);
+			Highgui.imwrite("images/test.jpg", d1);
 			showResult(d1);
 		}
 

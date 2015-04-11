@@ -58,6 +58,8 @@ public class TestShapes {
 		for(int i = 0; i < 100; i++)
 			for(int j = 0; j < 100; j++)
 				shapes.get(1).put((i + 400) + ", " + (j + 300), true);
+		
+		shapes = new ArrayList<HashMap<String, Boolean>>();
 	}
 
 }

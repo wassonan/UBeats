@@ -16,6 +16,9 @@ public class CVTest {
 		System.load(System.getProperty("user.dir") + "/libs/libopencv_java2411.dylib");
 		Mat prev_frame = Highgui.imread("images/base.jpg", 0);
 		Mat next_frame = Highgui.imread("images/motion.jpg", 0);
+		Mat frame = Highgui.imread("images/test.jpg", 0);
+		double[] a = frame.get(315, 465);
+		System.out.println(frame.channels());//a[0] +" "+ a[1] +" "+ a[2]);
 		Mat d1 = new Mat();
 		Core.subtract(prev_frame, next_frame, d1);
 		Imgproc.threshold(d1, d1, 70, 255, Imgproc.THRESH_BINARY);

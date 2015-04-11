@@ -51,7 +51,7 @@ public class BeatMap extends JPanel{
 				int y = Integer.parseInt(coord.substring(coord.indexOf(" ") + 1, 
 						coord.length()));
 				
-				g.drawLine(x, y, x, y);
+				g.drawLine(y, x, y, x);
 			} //while
 		} //for
 		
@@ -73,7 +73,7 @@ public class BeatMap extends JPanel{
 			
 			int x = me.getX();
 			int y = me.getY();
-			String coord = x + ", " + y;
+			String coord = y + ", " + x;
 			
 			for(int i = 0; i < TestShapes.shapes.size(); i++){
 				
