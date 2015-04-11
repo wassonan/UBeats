@@ -52,6 +52,7 @@ class ImageButton extends Canvas {
     this.downImage = downImage;
     this.image = upImage;
     setState(state);
+    bm = b;
   }
 
   /**

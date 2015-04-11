@@ -9,7 +9,6 @@ public class Driver {
 		
 		System.load(System.getProperty("user.dir") + "/libs/libopencv_java2411.dylib");
 		System.out.println("Starting Program");
-		ScanTest.scan();
 		MainFrame mf = new MainFrame();
 	} //main
 } //Driver

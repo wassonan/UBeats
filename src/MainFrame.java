@@ -7,6 +7,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 
@@ -24,7 +25,6 @@ public class MainFrame extends JFrame{
 	
 	//default constructor
 	public MainFrame(){
-		
 		initialize();
 		this.setVisible(true);
 	} //0 param constructor
@@ -35,7 +35,8 @@ public class MainFrame extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("UBeats");
 		this.setSize(500, 800);
-		
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 		JPanel panel = new JPanel();
 
 		panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
@@ -51,7 +52,7 @@ public class MainFrame extends JFrame{
 		ImageButton scan = null;
 		try {
 			scan = new ImageButton(new ImageIcon(ImageIO.read(new File("images/up.jpg"))).getImage(),
-					new ImageIcon(ImageIO.read(new File("images/down.jpg"))).getImage());
+					new ImageIcon(ImageIO.read(new File("images/down.jpg"))).getImage(), bmPanel);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
