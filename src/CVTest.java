@@ -1,14 +1,23 @@
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import com.googlecode.javacv.cpp.opencv_highgui.*;
-import com.googlecode.javacv.cpp.opencv_core.IplImage;
-
+import static com.googlecode.javacv.cpp.opencv_core.*;
 public class CVTest {
 
 	public static void main(String[] args) {
-		IplImage img = imread("base.jpg");
-		Mat mtx(img); // convert IplImage* -> Mat
-		absdiff(prev_frame, next_frame, d1);
+		BufferedImage img1 = null, img2 = null;
+		try {
+		    img1 = ImageIO.read(new File("base.jpg"));
+		    img2 = ImageIO.read(new File("motion.jpg"));
+		} catch (IOException e){}
+		IplImage prev_frame = IplImage.createFrom(img1);
+		IplImage next_frame = IplImage.createFrom(img1);
+		IplImage result = null;
+		cvAbsDiff(prev_frame, next_frame, result);
+		//cvShowImage("test", result);
 	}
 
 }
