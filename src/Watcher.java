@@ -25,7 +25,7 @@ import org.opencv.imgproc.Imgproc;
 
 public class Watcher implements Runnable{
 
-	ArrayList<Boolean> playable;
+	static ArrayList<Boolean> playable;
 
 	public void run() {
 		System.load(System.getProperty("user.dir") + "/libs/libopencv_java2411.dylib");
@@ -50,6 +50,11 @@ public class Watcher implements Runnable{
 		base = base.submat(165, 665, 200, 850);
 		//while
 		while(true){
+			
+			if(playable.size() < TestShapes.shapes.size())
+				for(int i = 0; i < TestShapes.shapes.size() - playable.size(); i++)
+					playable.add(false);
+
 			camera.read(cam);
 			//System.out.println(frame.rows());
 			cam = cam.submat(165, 665, 200, 850);
@@ -91,8 +96,14 @@ public class Watcher implements Runnable{
 				graphics.drawLine(x, y, x, y);
 			} //while
 			System.out.println(activate);
-			if(activate>=50)
+			if(activate>=50 && playable.get(i)){
+				
 				new AePlayWave(TestShapes.buttonSounds.get(i)).start();
+				playable.set(i, false);
+			} //if
+			
+			else if(activate < 50)
+				playable.set(i, true);
 		}//for		
 
 		File output = new File("images/kk.jpg");
