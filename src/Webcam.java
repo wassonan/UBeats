@@ -26,7 +26,7 @@ public class Webcam {
 
 		VideoCapture camera = new VideoCapture(0);
 		try {
-			Thread.sleep(500);
+			Thread.sleep(100);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -52,6 +52,7 @@ public class Webcam {
 		camera.read(frame);
 		//prev_frame = Highgui.imread("images/base.jpg", 0);
 		camera.read(prev_frame);
+		showResult(prev_frame);
 		try {
 			Thread.sleep(3000);
 			System.out.println("FINGAHNNOW");
@@ -92,7 +93,7 @@ public class Webcam {
 	}
 	
 	public static void showResult(Mat img) {
-	    Imgproc.resize(img, img, new Size(640, 480));
+	    //Imgproc.resize(img, img, new Size(640, 480));
 	    MatOfByte matOfByte = new MatOfByte();
 	    Highgui.imencode(".jpg", img, matOfByte);
 	    byte[] byteArray = matOfByte.toArray();

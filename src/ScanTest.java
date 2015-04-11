@@ -16,20 +16,43 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.Size;
 import org.opencv.highgui.Highgui;
+import org.opencv.highgui.VideoCapture;
 import org.opencv.imgproc.Imgproc;
 
 
 public class ScanTest {
 
 	public static void main(String[] args) {
+		scan();
+	}
+	
+	public static void scan(){
 		System.load(System.getProperty("user.dir") + "/libs/libopencv_java2411.dylib");
+		VideoCapture camera = new VideoCapture(0);
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		camera.open(0); 
+		if(!camera.isOpened()){
+			System.out.println("Camera Error");
+		}
+		Mat frame = new Mat();
+		camera.read(frame);
+		camera.read(frame);
+		
+		frame = Highgui.imread("images/base.jpg", 0);
 
-		Mat test = Highgui.imread("images/test.png", 0);
-		Imgproc.threshold(test, test, 100, 255, Imgproc.THRESH_BINARY);
-		showResult(test);
+		System.out.println(frame.size());
+		frame = frame.submat(165, 665, 200, 850);
+		showResult(frame);
+		
+		Imgproc.threshold(frame, frame, 100, 255, Imgproc.THRESH_BINARY);
 
 		MatOfByte bytemat = new MatOfByte();
-		Highgui.imencode(".jpg", test, bytemat);
+		Highgui.imencode(".jpg", frame, bytemat);
 		byte[] bytes = bytemat.toArray();
 		InputStream in = new ByteArrayInputStream(bytes);
 		BufferedImage img = null;
@@ -41,13 +64,8 @@ public class ScanTest {
 			e.printStackTrace();
 		}
 
-		System.out.println(img);
-
-
 		for(int i=0; i<img.getHeight(); i++){
 			for(int j=0; j<img.getWidth(); j++){
-				//test.get(i, j, a);
-				//System.out.print(a[0]);
 				int pixel = img.getRGB(j,i);
 				if(pixel == -1){
 					img.setRGB(j, i, 0xFF);
@@ -58,8 +76,6 @@ public class ScanTest {
 		}
 		for(int i=img.getHeight()-1; i>=0; i--){
 			for(int j=img.getWidth()-1; j>=0; j--){
-				//test.get(i, j, a);
-				//System.out.print(a[0]);
 				int pixel = img.getRGB(j,i);
 				if(pixel == -1){
 					img.setRGB(j, i, 0xFF);
@@ -70,7 +86,6 @@ public class ScanTest {
 		}
 		for(int j=0; j<img.getWidth(); j++){
 			for(int i=0; i<img.getHeight(); i++){
-				//test.get(i, j, a);
 				int pixel = img.getRGB(j,i);
 				if(pixel == -1){
 					img.setRGB(j, i, 0xFF);
@@ -81,8 +96,6 @@ public class ScanTest {
 		}
 		for(int j=img.getWidth()-1; j>=0; j--){
 			for(int i=img.getHeight()-1; i>=0; i--){
-				//test.get(i, j, a);
-				//System.out.print(a[0]);
 				int pixel = img.getRGB(j,i);
 				if(pixel == -1){
 					img.setRGB(j, i, 0xFF);
@@ -92,11 +105,9 @@ public class ScanTest {
 			}
 		}
 		Stack<int[]> s = new Stack<int[]>();
-		ArrayList<HashMap<String,Boolean>> shapes = new ArrayList<HashMap<String,Boolean>>();
 		boolean[][] flags = new boolean[img.getWidth()][img.getHeight()];
 		for(int i=0; i<img.getHeight(); i++){
 			for(int j=0; j<img.getWidth(); j++){
-				System.out.println(j+" "+i);
 				if(!flags[j][i]){
 					flags[j][i] = true;
 					if(img.getRGB(j,i) == -1){
@@ -119,16 +130,13 @@ public class ScanTest {
 								}
 							}
 						}
-						if(e.size()>300){
-							shapes.add(e);
+						if(e.size()>5000){
+							TestShapes.shapes.add(e);
 						}
 					}
 				}
 			}
 		}
-		
-		System.out.println(shapes.size());
-
 
 		try {
 			File outputfile = new File("images/saved.png");
@@ -136,8 +144,7 @@ public class ScanTest {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("bye");
-
+		System.out.println(TestShapes.shapes.size());
 	}
 
 	public static void showResult(Mat img) {
