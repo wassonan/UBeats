@@ -50,8 +50,8 @@ public class MainFrame extends JFrame{
 		JPanel scanPanel = new JPanel();
 		ImageButton scan = null;
 		try {
-			scan = new ImageButton(new ImageIcon(ImageIO.read(new File("images/up.png"))).getImage(),
-					new ImageIcon(ImageIO.read(new File("images/down.png"))).getImage());
+			scan = new ImageButton(new ImageIcon(ImageIO.read(new File("images/up.jpg"))).getImage(),
+					new ImageIcon(ImageIO.read(new File("images/down.jpg"))).getImage());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
