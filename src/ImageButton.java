@@ -38,13 +38,15 @@ class ImageButton extends Canvas {
    * The state of the button (true corresponds to down).
    */
   boolean state = false;
+  
+  BeatMap bm;
 
   /**
    * Create a new button with the given images, group, and initial
    * state.
    */
   public ImageButton(Image upImage, Image downImage,
-		     boolean state) {
+		     boolean state, BeatMap b) {
     
     this.upImage = upImage;
     this.downImage = downImage;
@@ -56,8 +58,8 @@ class ImageButton extends Canvas {
    * Create a new button with the given images and group,
    * and initially in its "false" (up) state.
    */
-  public ImageButton(Image upImage, Image downImage) {
-    this(upImage, downImage, false);
+  public ImageButton(Image upImage, Image downImage, BeatMap b) {
+    this(upImage, downImage, false, b);
   }
 
   public Dimension preferredSize() {
@@ -127,6 +129,7 @@ class ImageButton extends Canvas {
     }
     */
 	ScanTest.scan();
+	bm.repaint();
     repaint();
     mouseDown = false;
     return true;
