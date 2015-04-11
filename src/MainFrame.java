@@ -48,38 +48,25 @@ public class MainFrame extends JFrame{
 		
 		//creates a button for scanning
 		JPanel scanPanel = new JPanel();
-		JButton scan = null;
+		ImageButton scan = null;
 		try {
-			scan = new JButton(new ImageIcon(ImageIO.read(new File("images/button.jpg"))));
+			scan = new ImageButton(new ImageIcon(ImageIO.read(new File("images/up.png"))).getImage(),
+					new ImageIcon(ImageIO.read(new File("images/down.png"))).getImage());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		scan.setBorder(BorderFactory.createEmptyBorder());
-		scan.setContentAreaFilled(false);
-		
 		scanPanel.setLayout(new BorderLayout());
 		scanPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		scanPanel.setMaximumSize(new Dimension(400, 100));
 		scanPanel.setMinimumSize(new Dimension(400, 100));
-		scanPanel.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createLineBorder(Color.red), scanPanel.getBorder()));
+
+//		scanPanel.setBorder(BorderFactory.createCompoundBorder(
+//				BorderFactory.createLineBorder(Color.red), scanPanel.getBorder()));
+
 		scanPanel.add(scan, BorderLayout.CENTER);
-
-//		JPanel paddingNorth = new JPanel();
-//		JPanel paddingEast = new JPanel();
-//		JPanel paddingSouth = new JPanel();
-//		JPanel paddingWest = new JPanel();
-//		scanPanel.add(scan, BorderLayout.NORTH);
-//		scanPanel.add(paddingNorth, BorderLayout.NORTH);
-//		scanPanel.add(paddingEast, BorderLayout.EAST);
-//		scanPanel.add(paddingSouth, BorderLayout.SOUTH);
-//		scanPanel.add(paddingWest, BorderLayout.WEST);
-//		this.add(scanPanel, BorderLayout.CENTER);
-
 		panel.add(scanPanel);
-
 		panel.add(Box.createVerticalGlue());
 		this.add(panel);
 	} //initialize
