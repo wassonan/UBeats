@@ -25,7 +25,7 @@ import org.opencv.imgproc.Imgproc;
 
 public class Watcher implements Runnable{
 
-	static ArrayList<Boolean> playable;
+	static ArrayList<Boolean> playable = new ArrayList<Boolean>();
 
 	public void run() {
 		System.load(System.getProperty("user.dir") + "/libs/libopencv_java2411.dylib");
@@ -47,17 +47,14 @@ public class Watcher implements Runnable{
 		}
 		camera.read(frame);
 		camera.read(base);
-		base = base.submat(165, 665, 200, 850);
+		base = base.submat(165, 665, 185, 835);
 		//while
 		while(true){
 			
-			if(playable.size() < TestShapes.shapes.size())
-				for(int i = 0; i < TestShapes.shapes.size() - playable.size(); i++)
-					playable.add(false);
-
+			
 			camera.read(cam);
 			//System.out.println(frame.rows());
-			cam = cam.submat(165, 665, 200, 850);
+			cam = cam.submat(165, 665, 185, 835);
 			Core.subtract(base, cam, frame);
 			Imgproc.threshold(frame, frame, 70, 255, Imgproc.THRESH_BINARY);
 			//showResult(frame);
@@ -88,7 +85,7 @@ public class Watcher implements Runnable{
 				//System.out.println(x + ", " + y);
 
 				double[] rgb = frame.get(y, x);
-				if(rgb[0] > 240 && rgb[1] < 30 && rgb[2] < 30){
+				if(rgb[0] > 240 && rgb[1] < 20 && rgb[2] < 20){
 					activate++;
 				}
 
@@ -96,13 +93,22 @@ public class Watcher implements Runnable{
 				graphics.drawLine(x, y, x, y);
 			} //while
 			System.out.println(activate);
-			if(activate>=50 && playable.get(i)){
+				
+			if(playable.size() < TestShapes.shapes.size())
+				for(int j = 0; j < TestShapes.shapes.size() - playable.size(); j++){
+					System.out.println("adding");
+					playable.add(false);
+				}
+
+			System.out.println(TestShapes.shapes.size() + " - " + playable.size());
+			
+			if(activate>=40 && playable.get(i)){
 				
 				new AePlayWave(TestShapes.buttonSounds.get(i)).start();
 				playable.set(i, false);
 			} //if
 			
-			else if(activate < 50)
+			else if(activate < 40)
 				playable.set(i, true);
 		}//for		
 

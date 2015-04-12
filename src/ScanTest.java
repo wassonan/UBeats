@@ -29,7 +29,7 @@ public class ScanTest {
 	public static void main(String[] args) {
 		scan();
 	}
-	
+
 	public static void scan(){
 		System.load(System.getProperty("user.dir") + "/libs/libopencv_java2411.dylib");
 		TestShapes.shapes = new ArrayList<HashMap<String, Boolean>>();
@@ -48,15 +48,16 @@ public class ScanTest {
 		camera.read(frame);
 		camera.read(frame);
 		camera.release();
+		//frame = Highgui.imread("images/base.jpg", 0);
 		Highgui.imwrite("images/base.jpg", frame);
 
 		System.out.println(frame.size());
-		frame = frame.submat(165, 665, 200, 850);
-		
-		
-		Imgproc.threshold(frame, frame, 90, 255, Imgproc.THRESH_BINARY);
-		//showResult(frame);
-		
+		frame = frame.submat(165, 665, 185, 835);
+
+
+		Imgproc.threshold(frame, frame, 100, 255, Imgproc.THRESH_BINARY);
+		showResult(frame);
+
 		MatOfByte bytemat = new MatOfByte();
 		Highgui.imencode(".jpg", frame, bytemat);
 		byte[] bytes = bytemat.toArray();
@@ -69,12 +70,12 @@ public class ScanTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		img2 = new BufferedImage(img.getWidth(), img.getHeight(), img.getType());
-	    Graphics g = img2.getGraphics();
-	    g.drawImage(img, 0, 0, null);
-	    g.dispose();
-		
+		Graphics g = img2.getGraphics();
+		g.drawImage(img, 0, 0, null);
+		g.dispose();
+
 		for(int i=0; i<img.getHeight(); i++){
 			for(int j=0; j<img.getWidth(); j++){
 				int pixel = img.getRGB(j,i);
@@ -115,8 +116,31 @@ public class ScanTest {
 				}
 			}
 		}
-		img = img2;
+
 		Stack<int[]> s = new Stack<int[]>();
+		/*s.push(new int[]{0,0});
+		while(!s.empty()){
+			int[] a = s.pop();
+			if(img.getRGB(a[0],a[1]) == -1){
+				img2.setRGB(a[0],a[1], 0);
+				if(a[0]+1 < img.getWidth()){
+					s.push(new int[]{a[0]+1,a[1]});
+				}
+				if(a[1]-1 >=0){
+					s.push(new int[]{a[0],a[1]-1});
+				}
+				if(a[0]-1 >=0){
+					s.push(new int[]{a[0]-1,a[1]});
+				}
+				if(a[1]+1 < img.getHeight()){
+					s.push(new int[]{a[0],a[1]+1});
+				}
+			}
+		}
+
+
+		s = new Stack<int[]>();*/
+		img = img2;
 		boolean[][] flags = new boolean[img.getWidth()][img.getHeight()];
 		for(int i=0; i<img.getHeight(); i++){
 			for(int j=0; j<img.getWidth(); j++){
@@ -135,10 +159,18 @@ public class ScanTest {
 								flags[a[0]][a[1]] = true;
 								if(img.getRGB(a[0],a[1]) == -1){
 									e.put(a[0]+", "+a[1], true);
+									//if(a[0]+1 < img.getWidth()){
 									s.push(new int[]{a[0]+1,a[1]});
+									//}
+									//if(a[1]-1 >=0){
 									s.push(new int[]{a[0],a[1]-1});
+									//}
+									//if(a[0]-1 >=0){
 									s.push(new int[]{a[0]-1,a[1]});
+									//}
+									//if(a[1]+1 < img.getHeight()){
 									s.push(new int[]{a[0],a[1]+1});
+									//}
 								}
 							}
 						}
@@ -152,9 +184,9 @@ public class ScanTest {
 
 		try {
 			File outputfile = new File("images/saved.png");
-			File outputfile2 = new File("images/saved2.png");
+			//File outputfile2 = new File("images/saved2.png");
 			ImageIO.write(img, "png", outputfile);
-			ImageIO.write(img2, "png", outputfile2);
+			//ImageIO.write(img2, "png", outputfile2);
 
 		} catch (IOException e) {
 			e.printStackTrace();
