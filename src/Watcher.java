@@ -47,14 +47,14 @@ public class Watcher implements Runnable{
 		}
 		camera.read(frame);
 		camera.read(base);
-		base = base.submat(165, 665, 185, 835);
+		base = base.submat(205, 705, 185, 835);
 		//while
 		while(true){
 			
 			
 			camera.read(cam);
 			//System.out.println(frame.rows());
-			cam = cam.submat(165, 665, 185, 835);
+			cam = cam.submat(205, 705, 185, 835);
 			Core.subtract(base, cam, frame);
 			Imgproc.threshold(frame, frame, 70, 255, Imgproc.THRESH_BINARY);
 			//showResult(frame);
@@ -85,14 +85,13 @@ public class Watcher implements Runnable{
 				//System.out.println(x + ", " + y);
 
 				double[] rgb = frame.get(y, x);
-				if(rgb[0] > 240 && rgb[1] < 20 && rgb[2] < 20){
+				if(rgb[0] > 240 && rgb[1] < 15 && rgb[2] < 15){
 					activate++;
 				}
 
 				graphics.setColor(new Color((int)rgb[2], (int)rgb[1], (int)rgb[0]));
 				graphics.drawLine(x, y, x, y);
 			} //while
-			System.out.println(activate);
 				
 			if(playable.size() < TestShapes.shapes.size())
 				for(int j = 0; j < TestShapes.shapes.size() - playable.size(); j++){
@@ -100,7 +99,6 @@ public class Watcher implements Runnable{
 					playable.add(false);
 				}
 
-			System.out.println(TestShapes.shapes.size() + " - " + playable.size());
 			
 			if(activate>=40 && playable.get(i)){
 				

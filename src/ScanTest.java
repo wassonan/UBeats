@@ -51,12 +51,12 @@ public class ScanTest {
 		//frame = Highgui.imread("images/base.jpg", 0);
 		Highgui.imwrite("images/base.jpg", frame);
 
-		System.out.println(frame.size());
-		frame = frame.submat(165, 665, 185, 835);
+		//System.out.println(frame.size());
+		frame = frame.submat(205, 705, 185, 835);
 
 
-		Imgproc.threshold(frame, frame, 100, 255, Imgproc.THRESH_BINARY);
-		showResult(frame);
+		Imgproc.threshold(frame, frame, 110, 255, Imgproc.THRESH_BINARY);
+		//showResult(frame);
 
 		MatOfByte bytemat = new MatOfByte();
 		Highgui.imencode(".jpg", frame, bytemat);
@@ -75,7 +75,7 @@ public class ScanTest {
 		Graphics g = img2.getGraphics();
 		g.drawImage(img, 0, 0, null);
 		g.dispose();
-
+/*
 		for(int i=0; i<img.getHeight(); i++){
 			for(int j=0; j<img.getWidth(); j++){
 				int pixel = img.getRGB(j,i);
@@ -116,13 +116,17 @@ public class ScanTest {
 				}
 			}
 		}
-
+		*/
 		Stack<int[]> s = new Stack<int[]>();
-		/*s.push(new int[]{0,0});
+		
+		s.push(new int[]{0,0});
+		s.push(new int[]{649,0});
+		s.push(new int[]{0,499});
+		s.push(new int[]{649,499});
 		while(!s.empty()){
 			int[] a = s.pop();
 			if(img.getRGB(a[0],a[1]) == -1){
-				img2.setRGB(a[0],a[1], 0);
+				img.setRGB(a[0],a[1], 0);
 				if(a[0]+1 < img.getWidth()){
 					s.push(new int[]{a[0]+1,a[1]});
 				}
@@ -139,8 +143,17 @@ public class ScanTest {
 		}
 
 
-		s = new Stack<int[]>();*/
-		img = img2;
+		s = new Stack<int[]>();
+		//img = img2;
+		try {
+			File outputfile = new File("images/saved.png");
+			//File outputfile2 = new File("images/saved2.png");
+			ImageIO.write(img, "png", outputfile);
+			//ImageIO.write(img2, "png", outputfile2);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		boolean[][] flags = new boolean[img.getWidth()][img.getHeight()];
 		for(int i=0; i<img.getHeight(); i++){
 			for(int j=0; j<img.getWidth(); j++){
@@ -149,28 +162,36 @@ public class ScanTest {
 					if(img.getRGB(j,i) == -1){
 						HashMap<String,Boolean> e = new HashMap<String,Boolean>();
 						e.put(j+", "+i, true);
+						if(j+1 < img.getWidth()){
 						s.push(new int[]{j+1,i});
+						}
+						if(i-1 >=0){
 						s.push(new int[]{j,i-1});
+						}
+						if(j-1 >=0){
 						s.push(new int[]{j-1,i});
+						}
+						if(i+1 < img.getHeight()){
 						s.push(new int[]{j,i+1});
+						}
 						while(!s.empty()){
 							int[] a = s.pop();
 							if(!flags[a[0]][a[1]]){
 								flags[a[0]][a[1]] = true;
 								if(img.getRGB(a[0],a[1]) == -1){
 									e.put(a[0]+", "+a[1], true);
-									//if(a[0]+1 < img.getWidth()){
+									if(a[0]+1 < img.getWidth()){
 									s.push(new int[]{a[0]+1,a[1]});
-									//}
-									//if(a[1]-1 >=0){
+									}
+									if(a[1]-1 >=0){
 									s.push(new int[]{a[0],a[1]-1});
-									//}
-									//if(a[0]-1 >=0){
+									}
+									if(a[0]-1 >=0){
 									s.push(new int[]{a[0]-1,a[1]});
-									//}
-									//if(a[1]+1 < img.getHeight()){
+									}
+									if(a[1]+1 < img.getHeight()){
 									s.push(new int[]{a[0],a[1]+1});
-									//}
+									}
 								}
 							}
 						}
@@ -182,15 +203,7 @@ public class ScanTest {
 			}
 		}
 
-		try {
-			File outputfile = new File("images/saved.png");
-			//File outputfile2 = new File("images/saved2.png");
-			ImageIO.write(img, "png", outputfile);
-			//ImageIO.write(img2, "png", outputfile2);
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
 		System.out.println(TestShapes.shapes.size());
 	}
 

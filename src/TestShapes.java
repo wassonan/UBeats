@@ -46,7 +46,7 @@ public class TestShapes {
 		} //for
 
 		buttonSounds.set(0, sounds.get(0));
-		buttonSounds.set(1, sounds.get(1));
+		buttonSounds.set(1, sounds.get(2));
 
 		shapes = new ArrayList<HashMap<String, Boolean>>();
 		shapes.add(new HashMap<String, Boolean>());
